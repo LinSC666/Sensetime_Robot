@@ -1,0 +1,168 @@
+优先考虑：
+
+https://blog.csdn.net/qq_16775293/article/details/81119576
+
+1 安装必需库：
+
+$ sudo apt-get install libtool pkg-config build-essential autoconf automake
+
+
+2 编译安装加密库，ZMQ核心库，ZMQ的C和C++封装,默认安装目录：
+
+头文件都在：usr/local/include
+
+库文件都在：usr/local/lib
+
+2-1 编译安装ZMQ使用的加密库：
+
+$ git clone git://github.com/jedisct1/libsodium.git
+
+cd libsodium
+
+./autogen.sh
+
+./configure && make check
+
+sudo make install 
+
+sudo ldconfig 
+
+cd ..
+
+
+2-2 编译安装ZMQ核心库：
+
+git clone https://github.com/zeromq/libzmq
+
+./autogen.sh
+
+./configure && make check
+
+sudo make install
+
+sudo ldconfig
+
+cd ..
+
+  由于ZMQ把核心和实现分开了。因此只装核心库是不够的。我们开发一般用C/C++。下面安装这两个语言的绑定库。其他语言参考：http://zeromq.org/bindings:_start
+
+2-3 编译安装ZMQ的C绑定：
+
+git clone git://github.com/zeromq/czmq.git
+
+cd czmq
+
+./autogen.sh
+
+./configure && make check
+
+sudo make install
+
+sudo ldconfig
+
+cd ..
+
+
+之后就可以编译C绑定的ZMQ程序了：gcc-lczmq -lzmq myapp.c -o myapp
+
+2-4 添加ZMQC++绑定
+这个不需要编译安装，只是把一个头文件放到系统包含目录里：
+
+git clone https://github.com/zeromq/cppzmq.git
+
+cd cppzmq
+
+sudo cp zmq.hpp /usr/local/include/
+
+cd ..
+
+3 学习ZMQ。
+根据ZMQ官网的guide。下面说一下怎么编译运行例子
+
+git clone https://github.com/imatix/zguide.git
+
+
+3-1 C的示例：
+
+cd zguide/examples/C
+
+./build all
+
+ 
+这样就编译了所有这个目录下的例子。下面运行一个客户服务端例子：
+
+打开两个终端，都进入到zguide/examples/C
+
+T1输入：
+
+./hwserver
+
+
+T2输入：
+
+./hwclient
+
+
+3-2 C++的示例：
+
+cd zguide/examples/C++
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+https://blog.csdn.net/aaalg/article/details/82735970
+
+ sudo apt-get install libzmq3-dev
+
+wget https://github.com/zeromq/libzmq/releases/download/v4.2.2/zeromq-4.2.2.tar.gz
+Unpack tarball package
+
+tar xvzf zeromq-4.2.2.tar.gz
+Install dependency
+
+sudo apt-get update && \
+sudo apt-get install -y libtool pkg-config build-essential autoconf automake uuid-dev
+Create make file
+
+cd zeromq-4.2.2
+./configure
+Build and install(root permission only)
+
+sudo make install
+Install zeromq driver on linux
+
+sudo ldconfig
+Check installed
+
+ldconfig -p | grep zmq
+Expected
+
+############################################################
+# libzmq.so.5 (libc6,x86-64) => /usr/local/lib/libzmq.so.5
+# libzmq.so (libc6,x86-64) => /usr/local/lib/libzmq.so
+############################################################

@@ -1,0 +1,44 @@
+一、zmq简介
+https://gitee.com/solym/ZeroMQ-Guide-Zh
+https://www.cnblogs.com/rainbowzc/p/3357594.html　（推荐）
+
+ZeroMQ 的背景介绍
+    ZeroMQ是一种基于消息队列的多线程网络库，其对套接字类型、连接处理、帧、甚至路由的底层细节进行抽象，提供跨越多种传输协议的套接字。ZeroMQ是网络通信中新的一层，介于应用层和传输层之间（按照TCP/IP划分），其是一个可伸缩层，可并行运行，分散在分布式系统间。
+    ZeroMQ将消息通信分成4种模型，分别是一对一结对模型（Exclusive-Pair）、请求回应模型（Request-Reply）、发布订阅模型（Publish-Subscribe）、推拉模型（Push-Pull）。这4种模型总结出了通用的网络通信模型，在实际中可以根据应用需要，组合其中的2种或多种模型来形成自己的解决方案。 
+    而ZeroMQ是以库的形式存在，由应用程序加载、运行即可。但是ZeroMQ仅提供非持久性的消息队列。
+　　引用官方的说法： “ZMQ (以下 ZeroMQ 简称 ZMQ)是一个简单好用的传输层，像框架一样的一个 socket library，他使得 Socket 编程更加简单、简洁和性能更高。是一个消息处理队列库，可在多个线程、内核和主机盒之间弹性伸缩。ZMQ 的明确目标是“成为标准网络协议栈的一部分，之后进入 Linux 内核”。现在还未看到它们的成功。但是，它无疑是极具前景的、并且是人们更加需要的“传统”BSD 套接字之上的一层封装。ZMQ 让编写高性能网络应用程序极为简单和有趣。”
+
+　　近几年有关”Message Queue”的项目层出不穷，知名的就有十几种，这主要是因为后摩尔定律时代，分布式处理逐渐成为主流，业界需要一套标准来解决分布式计算环境中节点之间的消息通信。几年的竞争下来，Apache 基金会旗下的符合 AMQP/1.0标准的 RabbitMQ 已经得到了广泛的认可，成为领先的 MQ 项目。
+
+　　与 RabbitMQ 相比，ZMQ 并不像是一个传统意义上的消息队列服务器，事实上，它也根本不是一个服务器，它更像是一个底层的网络通讯库，在 Socket API 之上做了一层封装，将网络通讯、进程通讯和线程通讯抽象为统一的 API 接口。
+
+　　二、ZMQ 是什么？
+
+　　阅读了 ZMQ 的 Guide 文档后，我的理解是，这是个类似于 Socket 的一系列接口，他跟 Socket 的区别是：普通的 socket 是端到端的（1:1的关系），而 ZMQ 却是可以N：M 的关系，人们对 BSD 套接字的了解较多的是点对点的连接，点对点连接需要显式地建立连接、销毁连接、选择协议（TCP/UDP）和处理错误等，而 ZMQ 屏蔽了这些细节，让你的网络编程更为简单。ZMQ 用于 node 与 node 间的通信，node 可以是主机或者是进程。
+
+　　三、本文的目的
+
+　　在集群对外提供服务的过程中，我们有很多的配置，需要根据需要随时更新，那么这个信息如果推动到各个节点？并且保证信息的一致性和可靠性？本文在介绍 ZMQ 基本理论的基础上，试图使用 ZMQ 实现一个配置分发中心。从一个节点，将信息无误的分发到各个服务器节点上，并保证信息正确性和一致性。
+
+　　四、ZMQ 的三个基本模型
+
+　　ZMQ 提供了三个基本的通信模型，分别是“Request-Reply “，”Publisher-Subscriber“，”Parallel Pipeline”,我们从这三种模式一窥 ZMQ 的究竟
+
+
+可以参考：http://blog.csdn.net/lfsf802/article/details/38238007
+官网：http://zeromq.org/
+
+五、https://blog.csdn.net/heguangsui123/article/details/93493836
+ZeroMQ and Nanomsg
+
+　　　　从技术上讲，nanomsg不是一个消息队列，而是一个执行socket风格的图书馆分布式消息通过各种便捷的方式。因此，除了在应用程序中嵌入库本身之外，没有什么可以部署的.。这使得部署一个非问题。
+
+　　　　Nanomsg是一个由ZeroMQ的作者写的，和我讨论过，在对库的工作以一个非常类似的方式。从发展的角度来看，nanomsg提供全面清洁的API。与ZeroMQ不同，认为不存在一个上下文中，套接字绑定到。此外，nanomsg提供可插拔的运输和通讯协议，使其更加开放的延伸。其额外的内置可扩展性协议也使它相当有吸引力。
+
+　　　　像ZeroMQ一样，它保证消息将被原子性地传递完整和有序，但不保证它们的交付。局部的消息将无法交付，并且部分消息可能无法被交付。
+
+　　　　ZeroMq 的研发者 Martin Sustrik：很清楚的指出：
+
+　　　　　　Guaranteed delivery is a myth. Nothing is 100% guaranteed. That’s the nature of the world we live in. What we should do instead is to build an internet-like system that is resilient in face of failures and routes around damage.（保证交付是一个神话。没有100％保证。这就是我们生活的世界的性质。我们应该做的是建立一个互联网般的系统，面对失败和路线损坏时弹性。）
+
+

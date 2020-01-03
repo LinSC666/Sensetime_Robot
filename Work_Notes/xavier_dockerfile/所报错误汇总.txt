@@ -1,0 +1,74 @@
+一.error pulling image configuration: error parsing HTTP 408 response body: unexpected end of JSON input: ""
+
+中国科学技术大学（LUG@USTC）的开源镜像
+https://docker.mirrors.ustc.edu.cn
+
+文件更改位置
+/etc/docker/daemon.json 没有的话就创建一个
+
+    {
+      "registry-mirrors": ["https://docker.mirrors.ustc.edu.cn"]
+    }
+
+二.一个好的链接：
+https://blog.csdn.net/whatday/article/details/86776463
+
+三.unauthorized:authentication required
+
+四.podman  
+https://www.cnblogs.com/shoufu/p/11803010.html
+podman初试-和docker对比
+1，什么是docker？
+
+Docker 是一个开源的应用容器引擎，属于 Linux 容器的一种封装，Docker 提供简单易用的容器使用接口，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的 Linux 机器上。容器是完全使用沙箱机制，相互之间不会有任何接口。
+
+2，什么是Podman？
+模拟器:QEMU,可跨cpu架构构建程序
+1）Podman 是一个开源的容器运行时项目，可在大多数 Linux 平台上使用。Podman 提供与 Docker 非常相似的功能。正如前面提到的那样，它不需要在你的系统上运行任何守护进程，并且它也可以在没有 root 权限的情况下运行。
+Podman 可以管理和运行任何符合 OCI（Open Container Initiative）规范的容器和容器镜像。Podman 提供了一个与 Docker 兼容的命令行前端来管理 Docker 镜像。
+        Podman 官网地址：https://podman.io/
+        Podman 项目地址：https://github.com/containers/libpod
+2）安装方法：
+ 在Ubuntu上安装Podman
+
+在Ubuntu计算机上启动一个新的终端会话并运行下面的命令：
+
+sudo apt update
+
+sudo apt -y  install software-properties-common
+
+sudo add-apt-repository -y ppa:projectatomic/ppa
+
+添加存储库后，继续安装Podman：
+
+sudo apt -y install podman
+
+安装后，你可以显示有关主机、当前存储统计信息和podman构建的信息：
+
+# podman  info
+
+
+五.镜像加速https://yeasy.gitbooks.io/docker_practice/install/mirror.html
+gcr.io 镜像
+国内无法直接获取 gcr.io/* 镜像，我们可以将 gcr.io/<repo-name>/<image-name>:<version> 替换为 gcr.azk8s.cn/<repo-name>/<image-name>:<version> ,例如
+
+# $ docker pull gcr.io/google_containers/hyperkube-amd64:v1.9.2
+
+$ docker pull gcr.azk8s.cn/google_containers/hyperkube-amd64:v1.9.2
+
+六.用了podman build所报错误：
+Error: error creating build container: Error writing blob: error storing blob to file "/var/tmp/storage736767466/3": read tcp 10.9.99.40:51232->54.231.235.24:443: read: connection timed out
+
+七.huanghuang2018/nvcr.io-nvidia-l4t-base-r32.2.1
+https://hub.docker.com/r/huanghuang2018/nvcr.io-nvidia-l4t-base-r32.2.1
+docker pull huanghuang2018/nvcr.io-nvidia-l4t-base-r32.2.1
+
+
+八.跨平台构建镜像QEMU
+https://blog.csdn.net/alex_yangchuansheng/article/details/103146303
+
+
+
+
+
+

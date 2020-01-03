@@ -1,0 +1,110 @@
+//******************************************************//
+1. ROS2中的API相比ROS1中发生了较大的变化，这和ROS2设计文档中描述的一致，ROS2并不是在ROS1的基础上查漏补缺，而是完全从新设计。关于ROS2的API说明，可以参考API文档：http://docs.ros2.org/beta1/api/rclcpp/index.html
+
+2. 使用了更多C++的特性，比如auto、make_shared等。
+
+3. 加入了QoS配置，从上边的代码中，我们可以看到QoS有默认的配置rmw_qos_profile_default ，而且talker将QoS的depth配置设置为“7”。
+
+4. 代码的总体架构还是与ROS1极为相似的。
+//******************************************************//
+官网：
+
+https://index.ros.org/doc/ros2/Tutorials/Writing-A-Simple-Cpp-Publisher-And-Subscriber/
+
+http://docs.ros2.org/dashing/
+
+①语法网站：
+　rclpy:
+　http://docs.ros2.org/latest/api/rclpy/api/topics.html
+　
+　ros2_ws:
+ https://gitlab.nps.edu/ros2/ros2_ws/tree/master/src
+
+ launch:
+ https://github.com/ros2/launch
+
+为什么用ROS2.0
+https://mp.weixin.qq.com/s/aJdTkaOv01EN95tZtMiL_w (一个非常好的PPT!) 
+
+一、创建工程
+ ros2 pkg create test_pkg --build-type ament_cmake --dependencies rclcpp std_msgs
+或者
+ ros2 pkg create test_pkg --cpp-node-name my_node
+
+二、ROS2增添的内容
+ ①QoS Policy：Quality of Service，质量服务原则，负责数据质量的。QoS是DDS中非常重要的一环，控制了各方面与底层的通讯机制，主要从时间限制、可靠性、持续性、历史记录几个方面，满足用户针对不同场景的数据应用需求。
+FastRTPS不支持大数据，因为它被设计为嵌入式系统的轻量级实现。甚至是256 B的字符串超过FastRTPS的最大长度。
+ ②加入了QoS配置，QoS有默认的配置rmw_qos_profile_default 。 
+
+ ③建立ROS1与ROS2通讯的桥梁：ros1_bridge
+ 安装方法：
+mkdir -p ~/ros2_crystal/src
+cd ~/ros2_crystal
+wget https://raw.githubusercontent.com/ros2/ros2/crystal/ros2.repos
+vcs import src < ros2.repos
+在下载好的包中抽出ros1_bridge的包，进行编译：
+
+　④ROS1只能发布一种数据类型
+　　 ROS2可发布多种数据类型
+
+　⑤ros1与ros2进行通讯
+　ROS 2和ROS 1之间通过ros-bridge通信，需要安装：
+　$ sudo apt update
+　$ sudo apt install ros-$ROS_DISTRO-ros1-bridge ros-$ROS_DISTRO-turtlebot2-*(有可能失败！）
+
+三、创建launch文件
+https://www.theconstructsim.com/ros2-tutorials-6-how-to-create-a-ros2-launch-file-new/
+https://cloud.tencent.com/developer/article/1509250
+
+xxx.launch.py:
+
+from launch import LaunchDescription
+import launch_ros.actions
+ 
+def generate_launch_description():
+    return LaunchDescription([
+        launch_ros.actions.Node(
+            package='ros2_cpp_pkg', node_executable='cpp_code', output='screen'),
+    ])
+
+
+
+四、可ros1与ros2替换的地方
+①　 rospy.Time.now() ＝ "import time" , rclpy.clock.Clock().now().to_msg()
+
+②　　rate = rospy.Rate(frame_rate)　, rate.sleep()　＝"import time" , time.sleep(1/frame_rate)或者time.sleep(0.1) 
+
+③　　
+　　
+
+
+五、解决Image话题订阅问题，主要是CMakeLists与Package.xml没有加入sensor_msgs
+https://github.com/RachelRen05/realsense_image_raw（一个好例程）
+
+
+六、数字与字符串转换：
+
+　　　int value=10;
+　　　std::string s = std::to_string(value) ;
+
+
+七、消耗CPU的指令：
+　　　system("sh /root/ros2_ws/ros2_ws/killcpu.sh 4");　//4代表消耗4个CPU
+   system("ps -ef | grep /bin/sh | grep -v grep | awk '{print $2}' | xargs kill -9");//表示kill掉sh运行的脚本！！！
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

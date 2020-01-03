@@ -1,0 +1,85 @@
+
+//****************************************************//
+//基于X86平台编译NVIDIA xavier镜像文件操作步骤（手把手教学)
+//Version 1.0
+//By MIG-sensetime  2019.12.13
+//linsc
+//由于国内网络拉取此镜像比较坑爹。。。故先选用挂代理的方法
+//通过公网先下载好nvcr.io.nvidia.l4t-base.tar.gz的镜像，
+//以备以后制作使用！！！
+//****************************************************//
+
+官网：https://github.com/NVIDIA/nvidia-docker/wiki/NVIDIA-Container-Runtime-on-Jetson
+
+由于国内网络拉取此镜像比较坑爹。。。故先选用挂代理的方法通过公网先下载好nvcr.io.nvidia.l4t-base.tar.gz的镜像，以备以后制作使用！！！
+
+一.首先加载下载好的nvcr.io.nvidia.l4t-base.tar.gz的镜像进入环境中
+sudo docker load < nvcr.io.nvidia.l4t-base.tar.gz 
+或者
+sudo podman load < nvcr.io.nvidia.l4t-base.tar.gz （podman的安装方法见后面！！！）
+通过sudo podman images查看是否加载成功到镜像路径中；
+
+
+二.搭建QEMU虚拟环境，安装教程：
+$ sudo apt-get install qemu binfmt-support qemu-user-static
+ 
+注：若是在arch linux下面，可参照arch linux下的安装，贼方便。
+
+
+三.
+# Check if the entries look good.
+$ sudo cat /proc/sys/fs/binfmt_misc/status
+enabled
+
+# See if /usr/bin/qemu-aarch64-static exists as one of the interpreters.
+$ cat /proc/sys/fs/binfmt_misc/qemu-aarch64
+enabled
+interpreter /usr/bin/qemu-aarch64-static
+flags: OCF（主要是留意这个F在不在！！！）
+offset 0
+magic 7f454c460201010000000000000000000200b700
+mask ffffffffffffff00fffffffffffffffffeffffff
+
+Make sure the F flag is present, if not head to the troubleshooting section, as this will result in a failure to start the Jetson container. You’ll usually find errors in the form: exec user process caused "exec format error"
+
+
+
+四.创建一个Dockerfile,填入内容：
+FROM  nvcr.io/nvidia/l4t-base:r32.2
+RUN apt-get update && apt-get install -y \
+    vim \
+    sl 
+
+五.在Dockerfile文件夹下执行：
+$ sudo docker build -t xavier:v1.0  .
+
+若此时出现： saying ‘exec format error’的错误，则运行下面：
+注意：若步骤二上面打印的信息中的flags中没有F的标识符，则执行下面步骤进行编译：
+(If the flags does not include ‘F’ then the kernel is loading the interpreter lazily. The easiest fix is to have the binfmt-support package version >= 2.1.7, which automatically includes the --fix-binary (F) option. The other option is to run containers with /usr/bin/qemu-aarch64-static mounted inside the container:）
+
+$sudo podman  build  -v  /usr/bin/qemu-aarch64-static:/usr/bin/qemu-aarch64-static -t   xavier:v1.0  .
+
+六.
+通过 sudo podman save xavier:v1.0 | gzip  >  xavier_1.0.tar.gz保存在一个新的镜像安装包，方便移植使用。
+格式：sudo podman save <镜像的名称:TAG> | gzip  >  <自主命名包>
+
+七.插入：
+①安装podman的方法：
+在Ubuntu计算机上启动一个新的终端会话并运行下面的命令：
+
+sudo apt update
+
+sudo apt -y  install software-properties-common
+
+sudo add-apt-repository -y ppa:projectatomic/ppa
+
+添加存储库后，继续安装Podman：
+
+sudo apt -y install podman
+
+安装后，你可以显示有关主机、当前存储统计信息和podman构建的信息：
+
+# podman  info
+
+
+

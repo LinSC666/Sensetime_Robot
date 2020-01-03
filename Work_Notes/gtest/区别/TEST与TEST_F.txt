@@ -1,0 +1,16 @@
+１.https://blog.csdn.net/shurychen/article/details/53896795?utm_source=blogxgwz0
+　　①上面的TEST_F与TEST用法有点不同，，TEST_F提供了一个初始化函数（SetUp）和一个清理函数(TearDown)，在TEST_F中使用的变量可以在初始化函数SetUp中初始化，在TearDown中销毁，并且所有的TEST_F是互相独立的，都是在初始化以后的状态开始运行，一个TEST_F不会影响另一个TEST_F所使用的数据，且TEST_F()中的第一个变量是上面声明的类名.
+　　②
+TEST(test_case_name, test_name)
+
+TEST_F(test_fixture,test_name) //多个测试场景需要相同数据配置的情况，用 TEST_F test fixture，测试夹具，测试套，承担了一个注册的功能。
+
+TEST宏的作用是创建一个简单测试，它定义了一个测试函数，在这个函数里可以使用任何C++代码并使用提供的断言来进行检查。后续文章还会提到TEST_P这个宏，在这里就先不介绍了。
+
+２．http://www.uml.org.cn/Test/201905061.asp
+　　测试固定装置（test fixtures），如果想若干个测试用例共用一套测试配置，就可以使用测试固定装置，其实也就是派生于::testing::Test的类。
+
+３．比较好的链接
+　　　https://wenku.baidu.com/view/abec0f8f700abb68a882fb67.html（这个必须看！！！）
+　　　http://www.mamicode.com/info-detail-45956.html
+

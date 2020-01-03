@@ -1,0 +1,18 @@
+一个非常好的demo教学链接！！！
+https://gitee.com/solym/ZeroMQ-Guide-Zh
+https://gitee.com/solym/ZeroMQ-Guide-Zh/blob/master/chapter1.md　（教程）
+https://github.com/booksbyus/zguide/tree/master/examples/C%2B%2B　 (代码库)
+
+１．time ./sub
+测试运行的速度：
+linsc@linsc-GL553VD:~/SenseTime_robot/zeromq/test/pub_sub_demo$ time ./sub
+Collecting updates from weather server...
+
+Average temperature for zipcode '10001 ' was 31F
+
+real	0m2.379s
+user	0m0.005s
+sys	0m0.005s
+
+
+２．

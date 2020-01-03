@@ -1,0 +1,14 @@
+1.查询ubuntu的opencv版本：
+pkg-config --modversion opencv
+
+
+2.编译出现python3　has No module named 'cv2'
+解决：
+pip3 install opencv-python
+
+３．AttributeError: type object 'type' has no attribute '_TYPE_SUPPORT' This might be a ROS 1 message type but it should be a ROS 2 message type. Make sure to source your ROS 2 workspace after your ROS 1 workspace.
+解决：
+重新进入容器或者不用tmux!
+
+４．开了tmux居然连rviz2都打开不了！！！，只能在非tmux界面
+

@@ -1,0 +1,62 @@
+一、运行容器：
+docker container ls -a
+docker container start <container id>
+docker exec -it --privileged [container ID] bash
+
+二、停止容器：
+docker container stop <id>
+
+三、删除容器：
+docker container ls -a
+docker  rm  <id>
+
+四、删除镜像:
+docker images
+docker rmi <id>
+
+五、拉取一个镜像：
+①先登录
+　sudo docker login
+username:linsc16
+passwd:linsc0515
+
+②然后
+ sudo docker pull ubuntu:18.04
+
+六、查询系统镜像是否为需要系统版本号：
+ cat /etc/os-release 
+或者
+　lsb_release -a
+
+七、保存镜像/导出已存在的容器:
+
+[root@localhost docker]#
+
+docker save -o my_ubuntu_v3.tar runoob/ubuntu:v3  #docker save -o [保存的镜像的名字]  [源镜像的名字]
+
+[root@localhost docker]#
+
+docker export [CONTAINER ID] -o my_ubuntu_v3.tar   #docker export  [源镜像的ID] -o  [保存的镜像的名字]
+
+八、加载镜像:
+
+可以在任何装 docker 的地方加载 刚保存的镜像了。
+
+sudo docker load < nvcr.io.nvidia.l4t-base.tar.gz 
+
+九、挂在本地的某个工作目录到docker的环境下：
+ docker run -it -v /home/linsc/ROS_ws:/root/ros2_ws xxxx:xxxx的container bash
+或者：
+docker run -it --name eloquent_ros -v /home/linsc/ROS_Project/ROS2.0:/root/ros2_ws registry.sensetime.com/gophield/gophield:ubuntu18.04　bash
+
+十、xhost +
+这个是每次重启docker之后做的步骤，为了解决rviz之类无法显示的问题
+qt.qpa.screen: QXcbConnection: Could not connect to display :0
+Could not connect to any X display.
+
+
+
+
+
+
+

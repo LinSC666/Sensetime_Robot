@@ -1,0 +1,7 @@
+１．CMakeLists.txt的libkestrel问题
+
+２．test_detection.cpp中的问题:
+  ①写两个TEST_F函数会报错错误：
+[ERR][12/10-08:57:25][Kestrel] Create license failed!
+[ERR][12/10-08:57:25] add license failed, errcode: -13
+

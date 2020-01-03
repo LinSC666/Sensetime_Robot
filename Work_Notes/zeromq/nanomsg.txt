@@ -1,0 +1,13 @@
+我只说明一点，zmq的作者后面用c语言重写了zmq，新的库叫nanomsg。
+
+相比zmq(2.0)，nanomsg有不少优势，其一，sub/pub过滤是在pub方处理，zmq是sub方过滤（减少流量）。其二，nanomsg用的epoll。
+
+如果业务非常确定只涉及C/C++以及python，则可以放心采用nanomsg，否则，不用考虑，选ZMQ是不二只选。
+
+ZMQ 的官方sample有一些bug，特别是兼容C++ 11的时候，官方的一些写法是编译不过的。
+上述代码在C++ 98标准中可以编译通过（代码作者声明的说法），C++ 11中则会报错。
+
+转去看看看报错的行的
+https://github.com/nanomsg/nanomsg
+
+
