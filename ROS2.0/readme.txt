@@ -1,0 +1,5 @@
+环境实在ubuntu18.04的docker里面测试的，装了ros1.0的melodic和ros2.0的dashing
+１．这里主要是ros2_ws里面的py_pubsub与test_pkg的代码
+２．主要是py_sub的python写的测试ros2.0读取视频话题
+３．与test_pkg写的节点订阅与收发，客户与服务机制
+

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<launch>
+
+ 
+    <node name="talker" pkg="image_source" type="talker">
+       
+    </node>
+
+   <test test-name="talker_source" pkg="image_source" type="talker_source" />
+
+
+</launch>
