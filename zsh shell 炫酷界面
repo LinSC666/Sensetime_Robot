@@ -1,0 +1,116 @@
+https://viencoding.com/article/65
+Terminator + zsh 是一个比较完美的搭配
+
+下面就来说一下二者的安装配置
+Terminator
+
+    安装
+
+sudo aptitude install terminator
+
+    注aptitude可以换成apt-get，个人习惯aptitude，因为他解决依赖关系要好一点。但使用要先安装sudo apt-get install aptitude。下文提到的二者基本都是可以互换的，看个人喜好了^-^!
+
+    常用快捷键
+
+快捷键 	作用
+Ctrl+Shift+E 	垂直分割窗口
+Ctrl+Shift+O 	水平分割窗口
+Ctrl+Shift+W 	关闭当前窗格
+Ctrl+Shift+C 	复制
+Ctrl+Shift+V 	粘贴
+Ctrl+Shift+X 	放大或缩小某一窗口
+Ctrl+Shift+Z 	从放大窗口回到多窗格界面
+ALT+↑[↓,←,→] 	移动到上[下、左、右]面一个窗口
+Ctrl+Tab 	切换窗口
+Ctrl+- 	缩小字体
+Ctrl+Shift+=也就是Ctrl++ 	放大字体
+
+    配置
+
+安装后就默认Terminal是Termintor了，如果想改回默认配置可以
+
+moma@Mac:~$ sudo apt-get install dconf-tools
+moma@Mac:~$ gsettings set org.gnome.desktop.default-applications.terminal exec /usr/bin/gnome-terminal
+moma@Mac:~$ gsettings set org.gnome.desktop.default-applications.terminal exec-arg "-x"
+
+或者
+
+moma@Mac:~$ sudo apt-get install dconf-tools
+moma@Mac:~$ dconf-editor
+
+    然后在弹出的窗口依次进入目录 org > gnome > desktop > applications > terminal
+
+使用 Terminator 作为默认Terminal的配置为：
+
+exec  x-terminal-emulator
+exec-arg -e
+
+更改为 gnome-terminal 为默认Terminal
+
+exec  gnome-terminal
+exec-arg -x
+
+    美化 关于Termintor的美化就自己在窗口里右键、Preference自己调着玩吧
+
+zsh
+
+    先看看当前有哪些默认的Shell
+
+    moma@Mac:~$ cat /etc/shells
+    # /etc/shells: valid login shells
+    /bin/sh
+    /bin/dash
+    /bin/bash
+    /bin/rbash
+
+    确保系统安装了git 和 wget，没有的话安装
+
+    moma@Mac:~$ sudo aptitude install wget
+
+    开车了，快上来
+
+    moma@Mac:~$ sudo aptitude install zsh
+
+    引入增强插件，如git管理、tail补齐等
+
+    moma@Mac:~$ sudo wget --no-check-certificate https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh
+
+    如果不是root(超级管理员)安装，需要自行切换默认shell
+
+    moma@Mac:~$ chsh -s /bin/zsh
+
+    Reboot and Enjoy it！
+
+    moma@Mac:~$ sudo shutdown -r now
+
+        暂时切换shell只需要输入shell的名字就好如下例。也可以可以按照上面的设置默认shell还原成bash，或者设置成你喜欢的shell。
+
+        ➜  ~ bash
+        moma@Mac:~$ zsh
+        ➜  ~ 
+
+    How to make it be beautiful 这里有很多主题：https://github.com/robbyrussell/oh-my-zsh/wiki/themes 我选了一个酷炫的：agnoster 效果大致是这样的： <img agnoster> 使用前需要安装相关font，不然就是一堆乱码。当然其他不需要字体支持的就直接改一下配置文件就好了，将在文末介绍。
+
+    cd ~
+    git clone https://github.com/powerline/fonts.git
+    ls -al
+    cd fonts
+    ./install.sh
+
+    或者(前提是安装了pip) 安装pip，已经安装的可以跳过这步
+
+    $ sudo apt-get install python-pip python-dev build-essential 
+    $ sudo pip install --upgrade pip 
+    $ sudo pip install --upgrade virtualenv 
+
+    pip安装完成后
+
+    pip install --user git+git://github.com/powerline/powerline
+
+    这里注意：安装完字体后一定要应用。无论是原来的Terminal还是Termintor右键都会有属性配置，把字体设置成Ubuntu Mono derivative Powerline Bold[Regulor][Italic][Bold Italic]四种中的任意一种都可以。
+
+    修改配置文件，设置zsh主题
+
+    sudo vim ~/.zshrc
+
+    将ZSH_THEME="robbyrussell" 用 # 注释掉，以防以后要改回来，然后添加 ZSH_THEME="agnoster"，重启机器，大功告成，下车吧！
