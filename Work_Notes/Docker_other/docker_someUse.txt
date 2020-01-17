@@ -44,10 +44,15 @@ docker export [CONTAINER ID] -o my_ubuntu_v3.tar   #docker export  [源镜像的
 
 sudo docker load < nvcr.io.nvidia.l4t-base.tar.gz 
 
+if occur Error!!!!!!:
+open /var/lib/docker/tmp/docker-import-743441288/redis-3.0.7/json: no such file or directory
+usage:
+sudo cat ubuntu18_ros_dashing.tar | docker import - ubuntu18_ros_dashing
+
 九、挂在本地的某个工作目录到docker的环境下：
  docker run -it -v /home/linsc/ROS_ws:/root/ros2_ws xxxx:xxxx的container bash
 或者：
-docker run -it --name eloquent_ros -v /home/linsc/ROS_Project/ROS2.0:/root/ros2_ws registry.sensetime.com/gophield/gophield:ubuntu18.04　bash
+docker run -it --name eloquent_ros -v /home/linsc/ROS_Project/ROS2.0:/root/ros2_ws registry.sensetime.com/gophield/gophield:ubuntu18.04　bash [REPOSITORY:TAG]
 
 十、xhost +
 这个是每次重启docker之后做的步骤，为了解决rviz之类无法显示的问题

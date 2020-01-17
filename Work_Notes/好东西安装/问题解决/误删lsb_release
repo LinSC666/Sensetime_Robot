@@ -1,0 +1,3 @@
+ ubuntu如何安装lsb_release工具?
+
+答: sudo apt-get install lsb-core -y

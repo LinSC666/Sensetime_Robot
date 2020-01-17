@@ -1,0 +1,37 @@
+//数值转字符串
+msg->data=std::to_string(nnn);
+
+//字符串转数值
+stoi
+
+https://blog.csdn.net/sinat_40872274/article/details/81367815
+1.【字符串转换为数值】
+string和数值转换 	转换类型
+to_string(val) 	把val转换成string
+stoi(s,p,b) 	把字符串s从p开始转换成b进制的int
+stol(s,p,b) 	把字符串s从p开始转换成b进制的long
+stoul(s,p,b) 	把字符串s从p开始转换成b进制的unsigned long
+stoll(s,p,b) 	把字符串s从p开始转换成b进制的long long
+stoull(s,p,b) 	把字符串s从p开始转换成b进制的unsigned long long
+stof(s,p) 	把字符串s从p开始转换成float
+stod(s,p) 	把字符串s从p开始转换成double
+stold(s,p) 	l把字符串s从p开始转换成long double
+
+    #include <bits/stdc++.h>
+    #include <map>
+    using namespace std;
+    int main(){
+    	string s="222.22";
+    	cout<<"s="<<s<<endl;
+    	int a = 222;
+    	int ot = stoi(s,0,10);
+    	int ol = stol(s,0,10);
+    	float of = stof(s,0);
+    	double od = stod(s,0); 
+    	cout<<"ot="<<ot<<endl;
+    	cout<<"ol="<<ol<<endl;
+    	cout<<"of="<<of<<endl;
+    	cout<<"od="<<od<<endl;
+    	return 0;
+    }
+

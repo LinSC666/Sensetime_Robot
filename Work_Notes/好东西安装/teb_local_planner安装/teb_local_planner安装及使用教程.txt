@@ -1,0 +1,183 @@
+ teb_local_planner的安装步骤如下（注意ros为kenetic版）：
+
+        1、安装依赖：
+
+              sudo apt-get  install ros-kinetic-teb_local_planner
+
+              (曾在indigo版本采用此种方式安装依赖未成功，需要在源码中package.xml以及CMakeList.txt中筛选出缺少的依赖并安装)
+
+         2、从github上下载源码：https://github.com/rst-tu-dortmund/teb_local_planner
+
+         3、放入工作空间的/src文件夹中
+
+        4、catkin_make -DCATKIN_WHITELIST_PACKAGES=/home/linsc/ROS_Project/ros_book_ws/src/ros_exploring/robot_mrobot/mrobot_navigation/src/teb_local_planner
+（单独编译teb_local_planner）
+
+               编译需要较长的编译时间（我在树莓派上的编译时间近2小时）
+
+         5、查看teb_local_planner的plugin是否安装完成
+
+              rospack plugins --attrib=plugin nav_core
+
+              如果能查询到teb_local_planner，则表明以及准备就绪。
+
+       值得一提的是，teb_local_planner源码中关于plugin的配置文件均已写好，直接编译源码就能完成plugin的注册及插入，非常方便。
+
+      
+
+        teb_local_planner使用方法和base_local_planner一样，接下来简要介绍。默认已熟悉ros的navigation的使用。
+
+         1、新建teb_local_planner配置文件teb_local_planner_params.yaml
+
+              在此我偷了个懒，直接从tutorials中下载：
+
+              git clone https://github.com/rst-tu-dortmund/teb_local_planner_tutorials.git 
+
+              在/cfg中找到所需的teb_local_planner_params.yaml。由于使用机器人odom为差动模式的，故选取diff_drive中的。
+
+        2、将teb_local_planner_params.yaml和navigation中其他的配置文件（如costmap_common_params.yaml等）放在一起，方便查阅调用。个人习惯如此，也可以不放在一起。
+
+         3、在启动navigation的launch文件中load上述配置文件
+
+      <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+         ...
+        <rosparam file="$(find my_robot_name_2dnav)/base_local_planner_params.yaml" command="load" />
+         ...
+      </node>
+
+         4、在启动navigation的launch文件中声明base_local_planner采用先前注册的plugin
+
+      <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+        ...
+        <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
+        ...
+      </node>
+
+                当然也可以选择在move_base_params.yaml中声明。
+
+          5、启动navigation，在rviz中将三条path调出来，即可观察机器人导航过程中规划路径的变化。
+
+       此外，可以通过rosrun rqt_reconfigure rqt_reconfigure动态调节参数使机器人导航性能达到最佳。关于参数调节的方法请参考其ros官方文档。实际使用的经历来看，采用从teb_local_planner_tutorials下载下来的默认参数达到的性能已经远优于原始navigation中的路径规划算法的性能。我认为teb_local_planner的应用价值非常大。
+
+
+
+其teb_local_planner.yaml的文件：(差速轮的）
+可在https://github.com/rst-tu-dortmund/teb_local_planner_tutorials这里面的cfg文件找到！
+
+
+
+TebLocalPlannerROS:
+
+ odom_topic: odom
+    
+ # Trajectory
+  
+ teb_autosize: True
+ dt_ref: 0.3
+ dt_hysteresis: 0.1
+ max_samples: 500
+ global_plan_overwrite_orientation: True
+ allow_init_with_backwards_motion: False
+ max_global_plan_lookahead_dist: 3.0
+ global_plan_viapoint_sep: -1
+ global_plan_prune_distance: 1
+ exact_arc_length: False
+ feasibility_check_no_poses: 5
+ publish_feedback: False
+    
+ # Robot
+         
+ max_vel_x: 0.4
+ max_vel_x_backwards: 0.2
+ max_vel_y: 0.0
+ max_vel_theta: 0.3
+ acc_lim_x: 0.5
+ acc_lim_theta: 0.5
+ min_turning_radius: 0.0 # diff-drive robot (can turn on place!)
+
+ footprint_model:
+   type: "point"
+
+ # GoalTolerance
+    
+ xy_goal_tolerance: 0.2
+ yaw_goal_tolerance: 0.1
+ free_goal_vel: False
+ complete_global_plan: True
+    
+ # Obstacles
+    
+ min_obstacle_dist: 0.25 # This value must also include our robot radius, since footprint_model is set to "point".
+ inflation_dist: 0.6
+ include_costmap_obstacles: True
+ costmap_obstacles_behind_robot_dist: 1.5
+ obstacle_poses_affected: 15
+
+ dynamic_obstacle_inflation_dist: 0.6
+ include_dynamic_obstacles: True
+
+ costmap_converter_plugin: ""
+ costmap_converter_spin_thread: True
+ costmap_converter_rate: 5
+
+ # Optimization
+    
+ no_inner_iterations: 5
+ no_outer_iterations: 4
+ optimization_activate: True
+ optimization_verbose: False
+ penalty_epsilon: 0.1
+ obstacle_cost_exponent: 4
+ weight_max_vel_x: 2
+ weight_max_vel_theta: 1
+ weight_acc_lim_x: 1
+ weight_acc_lim_theta: 1
+ weight_kinematics_nh: 1000
+ weight_kinematics_forward_drive: 1
+ weight_kinematics_turning_radius: 1
+ weight_optimaltime: 1 # must be > 0
+ weight_shortest_path: 0
+ weight_obstacle: 100
+ weight_inflation: 0.2
+ weight_dynamic_obstacle: 10
+ weight_dynamic_obstacle_inflation: 0.2
+ weight_viapoint: 1
+ weight_adapt_factor: 2
+
+ # Homotopy Class Planner
+
+ enable_homotopy_class_planning: True
+ enable_multithreading: True
+ max_number_classes: 4
+ selection_cost_hysteresis: 1.0
+ selection_prefer_initial_plan: 0.9
+ selection_obst_cost_scale: 100.0
+ selection_alternative_time_cost: False
+ 
+ roadmap_graph_no_samples: 15
+ roadmap_graph_area_width: 5
+ roadmap_graph_area_length_scale: 1.0
+ h_signature_prescaler: 0.5
+ h_signature_threshold: 0.1
+ obstacle_heading_threshold: 0.45
+ switching_blocking_period: 0.0
+ viapoints_all_candidates: True
+ delete_detours_backwards: True
+ max_ratio_detours_duration_best_duration: 3.0
+ visualize_hc_graph: False
+ visualize_with_time_as_z_axis_scale: False
+
+# Recovery
+ 
+ shrink_horizon_backup: True
+ shrink_horizon_min_duration: 10
+ oscillation_recovery: True
+ oscillation_v_eps: 0.1
+ oscillation_omega_eps: 0.1
+ oscillation_recovery_min_duration: 10
+ oscillation_filter_duration: 10
+
+
+
+
+

@@ -1,0 +1,16 @@
+第二步：删除原来默认指向python2.7版本的链接。在ternimal下输入命令：
+
+　　sudo rm /usr/bin/python
+
+　　第三步：重新指定新的链接给python3.5版本。输入命令：
+
+　　sudo ln -s /usr/bin/python3.5 /usr/bin/python
+
+　　至此，python版本更新已经完成。
+　　附上博主成功截图一张：
+ 　　
+ 
+　　
+　　另：python2.7和3.5版本之间随意切换（这里3.5切换回2.7版本）：
+　　sudo rm /usr/bin/python
+　　sudo ln -s /usr/bin/python2.7 /usr/bin/python

@@ -1,0 +1,15 @@
+https://blog.csdn.net/SeekN/article/details/78573996
+
+问题解决
+
+然后安装相应服务，然后重置它！
+
+sudo apt-get install xserver-xorg-lts-utopic 
+sudo dpkg-reconfigure xserver-xorg-lts-utopic 
+reboot
+
+如果前面第一个操作有问题，需要重置 dpkg 后再试，总之按提示操作就好了。
+
+sudo dpkg --configure -a
+
+

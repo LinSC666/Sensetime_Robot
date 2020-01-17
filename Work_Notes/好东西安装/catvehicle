@@ -1,0 +1,19 @@
+git clone https://github.com/ros-drivers/sicktoolbox.git
+git clone https://github.com/ros-drivers/sicktoolbox_wrapper.git
+git clone https://github.com/ros-drivers/velodyne.git
+
+git clone https://github.com/sprinkjm/catvehicle.git
+git clone https://github.com/sprinkjm/obstaclestopper.git
+
+sudo apt-get install ros-kinetic-position-controllers
+sudo apt-get install ros-kinetic-velocity_controllers
+
+在各个velodyne的文件包里面：
+add_compile_options(-std=c++11)
+
+然后：
+ catkin_make_isolated
+
+运行时：
+sudo apt-get install ros-kinetic-joint-state-controller
+

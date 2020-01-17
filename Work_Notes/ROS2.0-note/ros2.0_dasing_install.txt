@@ -1,0 +1,110 @@
+//************************************//
+//ROS2.0 dashing Install
+//LinSC666
+//************************************//
+
+１. 设置UTF-8编码:
+
+    $ sudo locale-gen en_US en_US.UTF-8
+
+    $ sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
+
+    $ export LANG=en_US.UTF-8
+
+２. 更新软件源:
+
+    $ sudo apt update && sudo apt install curl gnupg2 lsb-release
+
+    $ curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
+
+    $ sudo sh -c 'echo "deb [arch=amd64,arm64] http://packages.ros.org/ros2/ubuntu `lsb_release -cs` main" > /etc/apt/sources.list.d/ros2-latest.list'
+   
+３. 其他依赖:
+   
+    sudo apt update && sudo apt install -y \
+    build-essential \
+    cmake \
+    git \
+    python3-colcon-common-extensions \
+    python3-pip \
+    python-rosdep \
+    python3-vcstool \
+    wget
+  # install some pip packages needed for testing
+    python3 -m pip install -U \
+    argcomplete \
+    flake8 \
+    flake8-blind-except \
+    flake8-builtins \
+    flake8-class-newline \
+    flake8-comprehensions \
+    flake8-deprecated \
+    flake8-docstrings \
+    flake8-import-order \
+    flake8-quotes \
+    pytest-repeat \
+    pytest-rerunfailures \
+    pytest \
+    pytest-cov \
+    pytest-runner \
+    setuptools
+  # install Fast-RTPS dependencies
+    sudo apt install --no-install-recommends -y \
+    libasio-dev \
+    libtinyxml2-dev
+  # install CycloneDDS dependencies
+    sudo apt install --no-install-recommends -y \
+    libcunit1-dev
+    
+４.安装：
+
+　　$ sudo apt update
+　
+　桌面版安装（包含ROS, RViz, demos, tutorials）（推荐）
+  $ sudo apt install ros-dashing-desktop
+
+  基础版安装（包含通讯库、消息包、命令行工具，没有GUI工具）(不推荐）
+  $ sudo apt install ros-dashing-ros-base
+
+５. 安装自动补全工具：
+　　　ros2的命令行使用argcomplete工具进行补全，所以需要安装该工具：
+    $ sudo apt install python3-argcomplete
+
+６．设置环境变量
+　　和ROS 1一样，为了让系统找到ROS命令，安装完成后需要将以下语句添加到.bashrc中：
+    $ source /opt/ros/dashing/setup.bash
+
+７．安装RWM,也称中间件！
+　　　https://zhuanlan.zhihu.com/p/59465983
+　为了能够在ROS2中使用一个DDS实现，需要一个ROS中间件(RMW软件包)，这个包需要利用DDS程序提供的API和工具实现ROS中间件的接口。为了在ROS2中使用一个DDS实现，有大量的工作需要做。但是为了防止ROS2的代码过于绑定某种DDS程序必须支持至少几种DDS程序。
+
+　　ROS2.0 默认安装的RWM是FastRTPS，也可以使用如下方式安装OpenSplice或RTI Connext的RWM：
+（Fast RTPS是什么东东？Fast RTPS是eProsima公司对RTPS标准的一个实现，也就是库（一个消息发布订阅的库）。
+那RTPS是什么东东？RTPS是DDS标准中的一个子集。英文名字是Real Time Publish Subscribe，是DDS标准中的通讯协议部分。其实ROS 2用到的DDS就是这个部分，所以Fast RTPS足够支持ROS 2的需求。
+简单来说Fast RTPS就是ROS 2中用来订阅发布消息的组件（前提是你的ROS 2选择它作为DDS实现）。）
+
+    $ sudo apt update
+
+    $ sudo apt install ros-dashing-rmw-opensplice-cpp # for OpenSplice
+
+    $ sudo apt install ros-dashing-rmw-connext-cpp # for RTI Connext (需要确认许可)
+
+    在使用的时候通过设置环境变量，即可更换需要的RWM：
+
+    RMW_IMPLEMENTATION=rmw_opensplice_cpp
+
+    RMW_IMPLEMENTATION=rmw_connext_cpp
+
+
+８. 若想要与ROS1.0通讯，则 （若不要，可以跳过此步，省去安装！！！）
+
+目前ROS 2的功能还不是很全面，很多功能包需要依赖ROS 1，所以还是需要安装ROS 1的，安装方法可以参考ROS 1 wiki教程。
+
+ROS 2和ROS 1之间通过ros-bridge通信，需要安装：
+
+    $ sudo apt update
+
+    $ sudo apt install ros-dashing-ros1-bridge ros-dashing-turtlebot2-*(有可能失败！）
+
+　　
+

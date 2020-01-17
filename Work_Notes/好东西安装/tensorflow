@@ -1,0 +1,32 @@
+
+sudo apt-get install python-pip python-dev
+
+export TF_BINARY_URL=https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-1.4.0-cp27-none-linux_x86_64.whl
+
+sudo pip install --upgrade $TF_BINARY_URL
+
+sudo -H pip install --upgrade pip
+
+sudo apt-get install protobuf-compiler python-pil python-lxml
+
+###################################################################################################################
+用pip安装Jupyter
+作为现有或有经验的Python用户，您可能希望使用Python的包管理器pip而不是Anaconda 来安装Jupyter 。
+
+如果你安装了Python 3（推荐）：
+    python3 -m pip install --upgrade pip
+    python3 -m pip install jupyter
+
+如果你安装了Python 2：
+
+    python -m pip install --upgrade pip
+    python -m pip install jupyter
+
+恭喜，你已经安装了Jupyter Notebook！要运行笔记本，请在终端（Mac / Linux）或命令提示符（Windows）上运行以下命令：
+
+jupyter notebook
+###################################################################################################################
+
+sudo pip install matplotlib
+
+git clone https://github.com/tensorflow/models

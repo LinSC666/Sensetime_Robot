@@ -1,0 +1,15 @@
+    int arr[10];
+    for(int i=0;i<10;i++)
+    {
+      arr[i]=i;
+    }
+    for(auto &a:arr)
+    {
+      std::cout << a;
+    }
+
+输出的结果就是0—9这十个数。
+
+for(auto &a : arr)中“auto &a”就是变量名就和上一个for循环中的“int i”一样，
+
+与for(int i=0;i<sizeof(arr);i++)是一样的。

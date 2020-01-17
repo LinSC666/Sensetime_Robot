@@ -1,0 +1,23 @@
+注意：先不要接上雷达的网线！！！
+打开/etc/network/interfaces文件时加入改为：
+
+auto enp3s0   
+iface enp3s0 inet static
+address 192.168.1.102
+netmask 255.255.255.0
+gateway 192.168.1.1
+
+dns-nameservers 192.168.1.1
+
+注意，设置静态IP一定要设enp3s0端口的！！！否则无法读取！
+然后：
+重启网络服务
+sudo  /etc/init.d/networking restart
+
+(注：enp3s0代表的意思：
+
+    1.en代表以太网卡
+
+    2.p3s0代表PCI接口的物理位置为(3, 0), 其中横座标代表bus，纵座标代表slot
+）
+

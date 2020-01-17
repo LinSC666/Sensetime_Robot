@@ -1,0 +1,20 @@
+auto wlp2s0
+iface wlp2s0 inet static
+address 192.168.1.102
+netmask 255.255.255.0
+gateway 192.168.1.1
+dns-nameserver 114.114.114.114
+
+
+extern "C" {
+//#include "network.h"
+#include "detection_layer.h"
+#include "region_layer.h"
+#include "cost_layer.h"
+#include "utils.h"
+#include "parser.h"
+#include "box.h"
+#include "darknet_ros/image_interface.h"
+#include <sys/time.h>
+}
+

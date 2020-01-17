@@ -17,7 +17,6 @@ docker run \
   --mount "type=bind,source=${DIR},destination=/root/gophield" \
   --network host \
   --volume /media:/media \
-  --volume /home/linsc/ROS_Project/ROS2.0:/root/ros2_ws \
   --volume /dev:/dev \
   --volume /etc/udev/rules.d:/etc/udev/rules.d \
   --volume /tmp/.X11-unix:/tmp/.X11-unix:rw \
@@ -33,3 +32,4 @@ docker run \
 
 # return access control
 xhost -local:root
+

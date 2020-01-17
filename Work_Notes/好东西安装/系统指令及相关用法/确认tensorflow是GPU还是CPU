@@ -1,0 +1,30 @@
+https://blog.csdn.net/qq_37774171/article/details/82902214
+确认自己的TensorFlow是CPU版本还是GPU版本
+2018年09月29日 20:09:37 蒟蒻熊 阅读数：5399
+
+这是一个运行TensorFlow操作的类，他封装了操作和Tensor的计算环境
+
+那怎么确认我们是安装的那个呢？
+
+记录设备指派情况
+为了获取你的 operations 和 Tensor 被指派到哪个设备上运行, 用 log_device_placement 新建一个 session, 并设置为 True.
+
+跑一个矩阵相乘
+
+import tensorflow as tf
+# 新建一个 graph.
+a = tf.constant([1.0, 2.0, 3.0, 4.0, 5.0, 6.0], shape=[2, 3], name='a')
+b = tf.constant([1.0, 2.0, 3.0, 4.0, 5.0, 6.0], shape=[3, 2], name='b')
+c = tf.matmul(a, b)
+# 新建session with log_device_placement并设置为True.
+sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))
+# 运行这个 op.
+print (sess.run(c))
+#任务完成 关闭会话
+sess.close()
+
+
+然后你会看到
+在这里插入图片描述
+
+我这里是CPU版本

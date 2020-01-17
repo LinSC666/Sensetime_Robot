@@ -1,0 +1,54 @@
+安装了ROS Kinetic之后Python3不能import Opencv
+
+问题描述如下：
+
+Python 3.5.2 (default, Nov 23 2017, 16:37:01) 
+[GCC 5.4.0 20160609] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import cv2
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ImportError: /opt/ros/kinetic/lib/python2.7/dist-packages/cv2.so: undefined symbol: PyCObject_Type
+>>> 
+
+
+Python 2.7.12 (default, Dec  4 2017, 14:50:18) 
+[GCC 5.4.0 20160609] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import cv2
+>>> 
+
+
+据了解在，python中是通过cv2.so调用opencv的库的：参考链接
+
+    Python调用opencv的原理是：opencv编译出共享库文件，python把这个共享库文件作为一个模块加载并使用。通俗点就是，编译opencv的时候开启python接口选项，编译好了会产生cv2.so(linux下）或者cv2.pyd(windows下）这个共享库文件，python代码中import这个cv2就可以用了。为了能正确import它，往往需要把cv2.so放在python找包能找到的路径下，或者修改PYTHONPATH环境变量让它包含cv2.so所在路径。
+
+可以看出这个问题是由ROS添加/opt/ros/kinetic/lib/python2.7/dist-packages到python路径引起的。
+
+当使用命令激活ROS时，实际上会发生这种情况source /opt/ros/kinetic/setup.bash。这行通常会添加到bashrc文件的末尾/home/username/.bashrc。
+
+解决方法是从bashrc文件中删除此行。
+
+这样就可以正确使用python3 opencv包，你仍然可以运行source /opt/ros/kinetic/setup.bash使用ROS。但是，这确实意味着无法在同一环境中使用ROS和python3
+
+就是说，在用python3运行opencv3 即import cv2的时候需要把.bashrc 或者 .zshrc中的有关ros的soure都注释掉，才可以正常运行
+给Python3配置opencv
+
+按网上搜索到的文章来讲，使用pip install opencv-python即可以给python3配置上opencv，但是在我这样安装了之后还是不行，于是选择了sudo pip install opencv-python但是出现了如下的错误：
+
+The directory '/home/sun/.cache/pip/http' or its parent directory is not owned by the current user and the cache has been disabled. Please check the permissions and owner of that directory. If executing pip with sudo, you may want sudo's -H flag.
+The directory '/home/sun/.cache/pip' or its parent directory is not owned by the current user and caching wheels has been disabled. check the permissions and owner of that directory. If executing pip with sudo, you may want sudo's -H flag.
+Requirement already satisfied (use --upgrade to upgrade): opencv-python in /home/sun/.local/lib/python3.5/site-packages
+Requirement already satisfied (use --upgrade to upgrade): numpy>=1.11.1 in /home/sun/.local/lib/python3.5/site-packages (from opencv-python)
+You are using pip version 8.1.1, however version 10.0.1 is available.
+You should consider upgrading via the 'pip install --upgrade pip' command.
+
+
+
+搜索之后发现解决方案如下：使用sudo -H pip3 install opencv-python安装即可
+
+# 安装之后 进入/usr/local/lib/python3.5/dist-packages/ 会发现有一个cv2的文件夹 里边有.so文件
+sun@MaxChanger  /usr/local/lib/python3.5/dist-packages/cv2  ls
+cv2.cpython-35m-x86_64-linux-gnu.so  data  __init__.py  LICENSE-3RD-PARTY.txt  LICEN
+--------------------- 
+

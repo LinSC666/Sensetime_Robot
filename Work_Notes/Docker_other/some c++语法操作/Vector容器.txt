@@ -1,0 +1,2 @@
+①pop_front 和pop_back函数用于删除容器内的第一个和最后一个元素。
+但vector容器类型不支持pop_front操作。这些操作删除指定的元素并返回void；

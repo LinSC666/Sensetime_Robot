@@ -1,0 +1,10 @@
+https://blog.csdn.net/qq_16775293/article/details/90293914
+1.在ROS1中，上述通信系统使用TCP和UDP套接字实现为基于TCPROS和UDPROS的中间件
+ TCPROS：基于tcp协议的ros应用层数据协议，用于解析topic 与 service的二进制数据流。(topic 消息的数据由TCPROS协议传输,所有的消息传输默认都是通过 TCPROS协议!!!)
+ ROS中远程过程调用采用XML-RPC实现。远程调用负责管理节点对计算图中信息的获取与更改，还有一些全局的设置。RPC不直接支持数据的流传输（通过TCPROS与 UDPROS支持）。
+
+2.UDPROS is a transport layer (in development) for ROS Messages and Services
+
+3.DDS支持QoS策略，但在端到端延迟和吞吐量之间存在权衡。在本地案例中，ROS2的开销延迟并非微不足道。从3.3节开始，延迟是由DDS和DDS事务的两次数据转换引起的。 DDS端到端延迟是恒定的，直到消息数据大小低于最大数据包大小（64 KB）
+
+4.ROS 2中的通信中间件改用DDS，而QoS是DDS中非常重要的一环，控制了各方面与底层的通讯机制，主要从时间限制、可靠性、持续性、历史记录几个方面，满足用户针对不同场景的数据应用需求。

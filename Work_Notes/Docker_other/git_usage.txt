@@ -11,6 +11,38 @@ git config --global user.email "linshicheng@sensetime.com"
 git config --global user.name "linsc"
 git push -u origin master
 ###################################################################################
+###################################################################################
+往现有的空间仓库推东西：
+git init 
+git clone http://gitlab.sz.sensetime.com/Gophield/linshicheng-workspace.git
+然后进入空间：
+cd linshicheng-workspace/
+放要推的文件或者文件夹到工作空间，然后：
+git add .
+git status
+git commit -m "xxx"
+git push -u origin master
+如果还要继续推文件，则继续放要推的文件或者文件夹到工作空间，然后：
+git add .
+....
+###################################################################################
+###################################################################################
+删除文件夹：
+先把要更改的空间仓库给下载下来：
+git clone http://gitlab.sz.sensetime.com/Gophield/linshicheng-workspace.git
+然后进入空间：
+cd linshicheng-workspace/
+然后删除要更改的文件夹：
+git rm -r Work_Notes/
+然后：
+git add .
+查询：
+git status
+然后：
+git commit -m "Work_Notes"
+最后：
+git push -u origin master
+###################################################################################
 
 １．查看分支,及当前所在分支(绿色)
   git branch -a

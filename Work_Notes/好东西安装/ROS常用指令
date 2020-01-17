@@ -1,0 +1,11 @@
+① rosmsg show geometry_msgs/Twist　显示数据类型
+
+②rqt_graph //查看节点与话题信息
+
+③rosrun rqt_tf_tree rqt_tf_tree
+
+④rostopic echo
+
+⑤rostopic pub /cmd_vel
+
+⑥

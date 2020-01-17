@@ -1,0 +1,29 @@
+std::pair主要的作用是将两个数据组合成一个数据，两个数据可以是同一类型或者不同类型。例如std::pair<int,float> 或者 std：：pair<double,double>等。pair实质上是一个结构体，其主要的两个成员变量是first和second，这两个变量可以直接使用。初始化一个pair可以使用构造函数，也可以使用std::make_pair函数，make_pair函数的定义如下：
+
+template pair make_pair(T1 a, T2 b) { return pair(a, b); }
+
+    #include <utility>
+    #include <string>
+    using namespace std;
+     
+    int main () {
+      pair <string,double> product1 ("tomatoes",3.25);
+      pair <string,double> product2;
+      pair <string,double> product3;
+     
+      product2.first = "lightbulbs";     // type of first is string
+      product2.second = 0.99;            // type of second is double
+     
+      product3 = make_pair ("shoes",20.0);
+     
+      cout << "The price of " << product1.first << " is $" << product1.second << "\n";
+      cout << "The price of " << product2.first << " is $" << product2.second << "\n";
+      cout << "The price of " << product3.first << " is $" << product3.second << "\n";
+      return 0;
+    }
+
+输出的结果是：
+
+     The price of tomatoes is $3.25
+    The price of lightbulbs is $0.99
+    The price of shoes is $20
