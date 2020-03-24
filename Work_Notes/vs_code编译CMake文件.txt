@@ -1,0 +1,150 @@
+1.下载安装
+支持跨平台，微软产品.
+下载地址：https://code.visualstudio.com/
+安装勾选需要的选项，傻瓜安装即可。
+
+//*****************************************//
+//首先，在vscode中打开要编译的文件夹，
+//然后把CMakeList.txt、cpp文件都包含，顺便手动创建build文件夹；
+//*****************************************//
+
+2.VSCode设置中文语言显示(可省略！）
+先安装的插件【Ctrl+Shift+x】，搜索Chinese (Simplified) Language Pack for Visual Studio Code，选择安装；
+使用快捷键组合【Ctrl+Shift+p】，在搜索框中输入“configure display language”，点击确定；
+修改locale.json文件下的属性“locale”为“zh-CN”;
+重启VSCode；
+
+3.VSCode C/C++配置
+3.1.去VS Code自带的商店下载的插件，快捷键：Ctrl+Shift+x，下载各种依赖包，包括：c/c++，c/c++ clang command adapter，c++ intellisense，CMake和CMake Tools如下图所示：
+
+4.
+（1）使用【Ctrl+Shift+p】，输入C/C++:Edit Configurations生成配置文件 c_cpp_properties.json
+
+（2）使用【Ctrl+Shift+p】，输入Tasks: Configure task生成配置文件 tasks.json
+
+（3）使用【Ctrl+Shift+p】，输入Open launch.json生成配置文件launch.json
+
+4.1、c_cpp_properties.json
+
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/usr/include",
+                "/usr/local/include"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c11",
+            "cppStandard": "c++14",
+            "intelliSenseMode": "clang-x64"
+        }
+    ],
+    "version": 4
+}
+
+
+4.2、tasks.json
+
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "make build",
+            "type": "shell",
+            "command": "cd ./build ;cmake ../ ;make",//编译命令
+            "group": { 
+                "kind": "build", 
+                "isDefault": true
+            }
+        },
+        { 
+            "label": "clean", 
+            "type": "shell", 
+            "command": "make clean"
+        }
+    ]
+}
+
+
+4.3、launch.json
+{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "server",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/server",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/build",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "为 gdb 启用整齐打印",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "make build"
+        }
+        {
+            "name": "client",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/client",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/build",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "为 gdb 启用整齐打印",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "make build"
+        }
+    ]
+}
+然后按Ctrl+Shift+B执行编译，按F5运行即可。要是想一步到位，可以把上面那行"preLaunchTask": "compile"的注释取消了，按F5就可以一次性编译运行了，不过这样不太好，万一编译错了你运行的程序还是之前未作修改的那个。
+
+4.3.1 launch 启动多任务：
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "name1",
+            "program": path1
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "name2",
+            "program": path2
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "name3",
+            "program": path3
+        }
+    ]
+}
+
+

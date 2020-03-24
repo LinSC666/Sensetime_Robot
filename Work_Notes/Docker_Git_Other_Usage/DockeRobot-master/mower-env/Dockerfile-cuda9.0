@@ -1,0 +1,119 @@
+FROM nvidia/cudagl:9.0-devel-ubuntu16.04
+
+LABEL maintainer "Jiaming Liu"
+MAINTAINER Jiaming Liu <liujiaming@sensetime.com>
+ENV IMAGE_BUILD_DATE 2019-06-06
+
+# Install sudo
+RUN apt-get update && \
+    apt-get install -y sudo apt-utils curl
+
+# Environment config
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Add new sudo user
+ARG user=sensetime
+ARG passwd=sensetime
+ARG uid=1000
+ARG gid=1000
+ENV USER=$user
+ENV PASSWD=$passwd
+ENV UID=$uid
+ENV GID=$gid
+RUN useradd --create-home -d /sensetime -m $USER && \
+        echo "$USER:$PASSWD" | chpasswd && \
+        usermod --shell /bin/bash $USER && \
+        usermod -aG sudo $USER && \
+        echo "$USER ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/$USER && \
+        chmod 0440 /etc/sudoers.d/$USER && \
+        usermod  --uid $UID $USER && \
+        groupmod --gid $GID $USER
+
+#install software
+## shift apt source
+RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates apt-transport-https gnupg-curl && \
+    rm -rf /var/lib/apt/lists/* && \
+    sed -i 's/archive.ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list && \
+    sh -c '. /etc/lsb-release && echo "deb http://mirrors.ustc.edu.cn/ros/ubuntu/ $DISTRIB_CODENAME main" > /etc/apt/sources.list.d/ros-latest.list' && \
+    apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654 && \
+#    NVIDIA_GPGKEY_SUM=d1be581509378368edeec8c1eb2958702feedf3bc3d17011adbf24efacce4ab5 && \
+#    NVIDIA_GPGKEY_FPR=ae09fe4bbd223a84b2ccfce3f60f4b3d7fa2af80 && \
+#    apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/7fa2af80.pub && \
+#    apt-key adv --export --no-emit-version -a $NVIDIA_GPGKEY_FPR | tail -n +5 > cudasign.pub && \
+#    echo "$NVIDIA_GPGKEY_SUM udasign.pub" | sha256sum -c --strict - && rm cudasign.pub && \
+#    echo "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64 /" > /etc/apt/sources.list.d/cuda.list && \
+#    echo "deb https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list && \
+    apt-get clean && \
+    apt-get update --fix-missing
+
+# ## change version of gcc
+# RUN apt-get install -y gcc-4.9 g++-4.9 && \
+#     update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 100 && \
+#     update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.9 100 && \
+#     update-alternatives --config gcc && \
+#     update-alternatives --config g++ && \
+#     ldconfig
+
+## install pip
+RUN apt-get install -y wget python-pip python-dev libgtk2.0-0 unzip libblas-dev liblapack-dev libhdf5-dev && \
+    curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
+    python get-pip.py
+
+## install cudnn7
+ENV CUDNN_VERSION 7.0.5.15
+LABEL com.nvidia.cudnn.version="${CUDNN_VERSION}"
+
+RUN HTTPS_PROXY=172.16.1.221:3128 apt-get update && apt-get install -y --no-install-recommends \
+            libcudnn7=$CUDNN_VERSION-1+cuda9.0 \
+            libcudnn7-dev=$CUDNN_VERSION-1+cuda9.0 && \
+    apt-mark hold libcudnn7
+
+## install TensorRT3
+WORKDIR /sensetime
+COPY ./TensorRT-3.0.4.Ubuntu-16.04.3.x86_64.cuda-9.0.cudnn7.0.tar.gz /sensetime
+RUN tar xzvf TensorRT-3.0.4.Ubuntu-16.04.3.x86_64.cuda-9.0.cudnn7.0.tar.gz
+ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:/sensetime/TensorRT-3.0.4/lib
+RUN cd /sensetime/TensorRT-3.0.4/python && \
+    pip install tensorrt-3.0.4-cp27-cp27mu-linux_x86_64.whl && \
+    cd /sensetime/TensorRT-3.0.4/uff && \
+    pip install uff-0.2.0-py2.py3-none-any.whl
+
+## install ros & utilities
+RUN apt-get install -y \
+        vim tmux git wget lsb-release lsb-core udev iputils-ping pkg-config && \
+    apt-get install -y \
+        ros-kinetic-desktop ros-kinetic-moveit ros-kinetic-ros-control ros-kinetic-ros-controllers ros-kinetic-trac-ik-kinematics-plugin ros-kinetic-catkin python-catkin-tools python-rosinstall ros-kinetic-joint-state-controller python-pygame && \
+    rosdep init
+
+## install gazebo
+RUN sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list' && \
+    wget http://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add - && \
+    apt-get update && \
+    HTTP_PROXY=172.16.1.221:3128 apt-get install -y gazebo8 libgazebo8-dev && \
+    HTTP_PROXY=172.16.1.221:3128 apt-get install -y ros-kinetic-gazebo8-ros-pkgs ros-kinetic-gazebo8-ros-control
+
+## install git-lfs
+RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
+    apt-get install -y git-lfs=1.4.4
+
+# Setup ROS && build husqvarna ros packages
+# RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+USER $USER
+RUN mkdir -p /sensetime/catkin_ws/src/hrp
+COPY ./hrp /sensetime/catkin_ws/src/hrp
+RUN rosdep fix-permissions && rosdep update && \
+    cd /sensetime/catkin_ws/src/hrp && \
+    /bin/bash -c "source /opt/ros/kinetic/setup.bash" && \
+    cd /sensetime/catkin_ws && catkin init && catkin build; exit 0
+ENV GAZEBO_MODEL_PATH=/sensetime/catkin_ws/src/hrp/am_gazebo/models:$GAZEBO_MODEL_PATH
+RUN echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc && \
+    echo "source /sensetime/catkin_ws/devel/setup.bash" >> ~/.bashrc
+
+# install locales and dbus support
+RUN DEBIAN_FRONTEND=noninteractive sudo apt-get install -y locales-all dbus-x11
+
+# nvidia-container-runtime
+ENV NVIDIA_VISIBLE_DEVICES \
+    ${NVIDIA_VISIBLE_DEVICES:-all}
+ENV NVIDIA_DRIVER_CAPABILITIES \
+    ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics

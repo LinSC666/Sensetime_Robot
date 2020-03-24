@@ -1,0 +1,18 @@
+1.boost lock free queue
+
+2.boost wait free queue
+
+3.boost template spsc_queue
+
+4.boost interprocess
+
+5.https://gist.github.com/sehe/9376856
+  https://github.com/MengRao/tcpshm
+  https://github.com/cfallin/shmipclib
+  https://www.boost.org/doc/libs/1_63_0/doc/html/interprocess.html
+
+6.shmopen
+  ls /dev/shm
+  check_shm.sh
+  lsof /dev/shm | grep chatter
+

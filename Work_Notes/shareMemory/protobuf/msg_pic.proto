@@ -1,0 +1,11 @@
+//msg.proto
+syntax = "proto2";
+package demo;
+
+message msg
+{
+    required int32 frame_id = 1;
+    required string camera_mode = 2;
+    required string string_image = 3;
+}
+
