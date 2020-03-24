@@ -1,0 +1,8 @@
+prefix=/home/linsc/ROS_Project/Sensetime_ws/dengwenjun_old_ws/devel
+
+Name: rtk_gps
+Description: Description of rtk_gps
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/linsc/ROS_Project/Sensetime_ws/dengwenjun_old_ws/devel/lib 
+Requires: nmea_msgs roscpp rospy std_msgs nav_msgs sensor_msgs

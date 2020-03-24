@@ -1,0 +1,3 @@
+<launch>
+    <node name="phone_sensors" pkg="phone_sensors" type="phone_sensors.py" output="screen"/>
+</launch>

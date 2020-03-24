@@ -1,0 +1,8 @@
+prefix=/home/linsc/ROS_Project/Sensetime_ws/dengwenjun_old_ws/install
+
+Name: hq_robot_task
+Description: Description of hq_robot_task
+Version: 0.0.0
+Cflags: -I/home/linsc/ROS_Project/Sensetime_ws/dengwenjun_old_ws/install/include
+Libs: -L/home/linsc/ROS_Project/Sensetime_ws/dengwenjun_old_ws/install/lib 
+Requires: actionlib actionlib_msgs message_generation roscpp rospy std_msgs

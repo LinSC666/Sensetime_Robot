@@ -1,0 +1,25 @@
+<launch>
+    <!-- Run NavSat Driver -->
+    <node name="nmea_navsat_driver" pkg="nmea_navsat_driver" type="nmea_topic_serial_reader" args="_port:=/dev/ttyUSB0 _baud:=115200" />
+
+    <!-- Run RTK GPS node -->
+    <node name="rtk_gps" pkg="rtk_gps" type="rtk_gps_node" args="-m topic" output="screen"/>
+
+    <!-- Run GPS odometry node -->
+    <node name="gps_odometry" pkg="rtk_gps" type="gps_odometry_node"/>
+    
+    <!-- Run the map server -->
+    <arg name="map_file" default="/home/nvidia/Projects/yangkai-workspace/src/rtk_gps/map/test.yaml"/>
+    <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+
+    <node name="static_map_to_odom" pkg="tf" type="static_transform_publisher" args="0 0 0 0 0 0 /map /odom 1"/>
+
+
+    <!-- <node name="static_baselink_to_gps" pkg="tf" type="static_transform_publisher" args="0 0 0 0 0 0 /baselink /GPS 1"/> -->
+    <!-- <node name="static_baselink_to_imu" pkg="tf" type="static_transform_publisher" args="0 0 0 0 0 0 /baselink /IMU 1"/> -->
+
+    <!--- Run Move Base -->
+    
+
+    <!--- Auto Mower -->
+</launch>
