@@ -9,6 +9,10 @@
 //******************************************************//
 官网：
 
+https://fkromer.github.io/awesome-ros2/ (强烈推荐）
+
+https://github.com/ros2/common_interfaces （标准消息库）
+
 https://index.ros.org/doc/ros2/Tutorials/Writing-A-Simple-Cpp-Publisher-And-Subscriber/
 
 http://docs.ros2.org/dashing/
@@ -70,7 +74,13 @@ def generate_launch_description():
 
 
 四、可ros1与ros2替换的地方
-①　 rospy.Time.now() ＝ "import time" , rclpy.clock.Clock().now().to_msg()
+①　 时间戳：
+    rospy.Time.now() ＝ "import time" , rclpy.clock.Clock().now().to_msg()
+　　　　ros::Time::now() ＝ #include "rclcpp/time.hpp"
+			#include "rclcpp/clock.hpp"
+			rclcpp::Time delay_begin  ,
+			delay_end=rclcpp::Clock().now();
+			double delaytime=bbb=delay_end.nanoseconds();//seconds()纳秒或者秒
 
 ②　　rate = rospy.Rate(frame_rate)　, rate.sleep()　＝"import time" , time.sleep(1/frame_rate)或者time.sleep(0.1) 
 
@@ -93,7 +103,20 @@ https://github.com/RachelRen05/realsense_image_raw（一个好例程）
    system("ps -ef | grep /bin/sh | grep -v grep | awk '{print $2}' | xargs kill -9");//表示kill掉sh运行的脚本！！！
 
 
-
+八、订阅接收到sensor_msgs::msg::Image::SharedPtr msg图片信息解码
+　　　①stod(msg->header.frame_id,0)　//转换为double型
+　　　②msg->header.stamp.sec
+　　　　msg->header.stamp.nanosec
+   (注意:msg->header.stamp.sec*1e9+msg->header.stamp.nanosec才等于ns的数据，但在talker&&listener中,直接使用
+　　　delay_end=rclcpp::Clock().now();   //获取结束时间
+ 　　double time_end=delay_end.nanoseconds();
+   latency_time=time_end-stod(msg->data,0);
+　　　③msg->width
+　　　
+九、在python里面
+　　　msg.header.stamp = rclpy.clock.Clock().now().to_msg()
+　　　
+   
 
 
 

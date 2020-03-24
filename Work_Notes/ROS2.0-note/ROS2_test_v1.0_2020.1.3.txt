@@ -1,0 +1,28 @@
+①
+ ros2 run py_pubsub image_source_video (D1py)
+ 发布/image_source/image_raw
+②
+ ros2 run test_pkg D2cpp
+ 订阅D1的/image_source/image_raw,然后触发cpu的消耗，并根据客户端的请求，根据client的数据大小，调整cpu的消耗的频率，并且发布/D2cpp_pub消息。
+③
+ ros2 run test_pkg D3cpp
+ 订阅D2的/D2cpp_pub信息，并做出相应的响应
+④
+ ros2 run test_pkg L1
+ 发布/pub_e消息，并订阅/D2cpp_pub消息，在收到/D2cpp_pub消息的回调中对/pub_e进行数据发送
+⑤ 
+ ros2 run test_pkg L3
+ 订阅/pub_e的消息，并在回调中做出反应
+
+⑥
+ ros2 run test_pkg client 0 1
+ 发布控制消耗CPU的客户端
+ 或者：
+ ros2 run test_pkg client_time定时地改变cpu的消耗率！
+
+⑦
+ ros2 run test_pkg talker
+ ros2 run test_pkg listener
+
+
+bash -i -c "roslaunch " &
