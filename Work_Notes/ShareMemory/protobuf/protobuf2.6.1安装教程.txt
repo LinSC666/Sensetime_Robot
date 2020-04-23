@@ -1,0 +1,8 @@
+https://blog.csdn.net/changer_sun/article/details/79264326
+
+./autogen.sh
+./configure
+make
+make check
+make install
+

@@ -1,2 +1,0 @@
-am_description:am_driver_safe:am_msgs:hq_decision_making:hq_decision_making_parser:hq_robot_task:jackal_move_test:phone_sensors:rtk_gps:simple_coverage:simple_coverage_global_planner
--DCATKIN_DEVEL_PREFIX=/home/linsc/ROS_Project/Sensetime_ws/dengwenjun_old_ws/devel -DCMAKE_INSTALL_PREFIX=/home/linsc/ROS_Project/Sensetime_ws/dengwenjun_old_ws/install -G Unix Makefiles

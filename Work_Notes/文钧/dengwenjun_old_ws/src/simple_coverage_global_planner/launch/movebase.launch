@@ -1,7 +1,0 @@
-<launch>
-
-   
-    <!--- Run Move Base -->
-    <include file="$(find simple_coverage_global_planner)/launch/include/move_base.launch" />
-
-</launch>

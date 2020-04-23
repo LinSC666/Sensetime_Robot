@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+
+<launch>
+  <rosparam command="load" file="$(find apf)/launch/parameter.yaml" />
+
+  <node pkg="apf" type="apf_node" name="apf_node" output="screen" >
+    <param name="target_x" value="2.4" /> 
+    <param name="target_y" value="0.0" />
+    <!-- <param name="target_threshold" value="0.8" />
+    <param name="target_gain" value="0.5" /> -->
+    <param name="target_threshold" value="2.0" />
+    <param name="target_gain" value="0.2" />
+    
+    <param name="obstacle_x" value="0.6" />
+    <param name="obstacle_y" value="0.30" />
+    <param name="obstacle2_x" value="1.5" />
+    <param name="obstacle2_y" value="-0.60" />
+
+    <param name="obstacle_threshold" value="0.5" />
+    <param name="obstacle_gain" value="0.6"/>
+
+    <param name="is_pub_vel" value="1" />
+    <param name="is_visulized" value="0" />
+    <param name="is_simulated" value="0" />
+
+    <param name="robot_radius" value="0.16" />
+    <param name="v_max" value="0.4" />
+    
+
+  </node>
+
+</launch>

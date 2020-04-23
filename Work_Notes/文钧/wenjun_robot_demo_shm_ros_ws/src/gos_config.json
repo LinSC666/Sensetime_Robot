@@ -1,0 +1,41 @@
+{
+    "topic_1": {
+        "nodes": [
+            "gos.node.node1",
+            "gos.node.node2",
+            "gos.node.node3"
+        ],
+        "sub": [
+            "gos.sub.node1.topic_1.sub1",
+            "gos.sub.node1.topic_1.sub2",
+            "gos.sub.node2.topic_1.sub1"
+        ]
+    },
+    "topic_2": {
+        "nodes": [
+            "gos.node.node1",
+            "gos.node.node2",
+            "gos.node.node3"
+        ],
+        "sub": [
+            "gos.sub.node1.topic_2.sub1",
+            "gos.sub.node2.topic_2.sub1",
+            "gos.sub.node2.topic_2.sub2",
+            "gos.sub.node2.topic_2.sub3",
+            "gos.sub.node3.topic_2.sub4"
+        ]
+    },
+    "topic_3": {
+        "nodes": [
+            "gos.node.node1",
+            "gos.node.node2",
+            "gos.node.node3"
+        ],
+        "sub": [
+            "gos.sub.node3.topic_3.sub1",
+            "gos.sub.node1.topic_3.sub1",
+            "gos.sub.node2.topic_3.sub2",
+            "gos.sub.node3.topic_3.sub2"
+        ]
+    }
+}

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<launch>
+  <rosparam command="load" file="$(find apf)/launch/parameter.yaml" />
+
+  <node pkg="apf" type="apf_node" name="apf_node" output="screen" >
+    <param name="target_x" value="2.5" /> 
+    <param name="target_y" value="0.0" />
+    <param name="target_threshold" value="2.0" />
+    <param name="target_gain" value="0.2" />
+    
+    <param name="obstacle_x" value="1.3" />
+    <param name="obstacle_y" value="0.3" />
+    <param name="obstacle_threshold" value="0.8" />
+    <param name="obstacle_gain" value="0.05" />
+
+    <param name="pub_state" value="1" />
+
+  </node>
+
+</launch>

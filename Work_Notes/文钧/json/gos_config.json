@@ -1,0 +1,24 @@
+{
+    "topic_1": {
+        "nodes": [
+            "gos.node.node2",
+            "gos.node.node3"
+        ],
+        "sub": [
+            "gos.sub.node2.topic_1.sub1",
+            "gos.sub.node2.topic_1.sub2",
+            "gos.sub.node3.topic_1.sub1"
+        ]
+    },
+    "topic_2": {
+        "nodes": [
+            "gos.node.node2",
+            "gos.node.node3"
+        ],
+        "sub": [
+            "gos.sub.node2.topic_2.sub1",
+            "gos.sub.node3.topic_2.sub1",
+            "gos.sub.node3.topic_2.sub2"
+        ]
+    }
+}

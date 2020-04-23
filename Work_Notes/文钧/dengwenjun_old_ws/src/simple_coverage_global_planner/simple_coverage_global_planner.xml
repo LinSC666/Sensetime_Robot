@@ -1,5 +1,0 @@
-<library path="lib/libsimple_coverage_global_planner">
-    <class name="simple_coverage_global_planner/SimpleCoverageGlobalPlanner" type="simple_coverage_global_planner::SimpleCoverageGlobalPlanner" base_class_type="nav_core::BaseGlobalPlanner">
-        <description>This is a global planner plugin to cover area.</description>
-    </class>
-</library>

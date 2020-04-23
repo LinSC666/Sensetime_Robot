@@ -1,0 +1,24 @@
+①下载这个：
+https://github.com/nlohmann/json#cmake
+
+②然后
+mkdir build
+cd build
+cmake ..
+make
+sudo make install
+
+③在自己的cpp文件中：
+#include "nlohmann/json.hpp"    //实际位置在 /usr/include中，so和a文件也在默认的地方
+using json = nlohmann::json;
+    std::ifstream json_fin(json_Buf);   // 注意此处是相对路径
+    nlohmann::json jjj;
+
+    json_fin >> jjj; 
+    json_fin.close();
+    cout<<jjj["topic_1"]["nodes"][1]<<"\n"<<endl;
+
+④在cmakelists.txt中：
+
+find_package(nlohmann_json 3.2.0 REQUIRED)
+target_link_libraries(node  nlohmann_json::nlohmann_json )

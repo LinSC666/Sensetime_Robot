@@ -1,7 +1,0 @@
-先：
-roslaunch simple_coverage_global_planner simple_coverage.launch
-
-后：
-roslaunch jackal_gazebo jackal_world.launch
-
-

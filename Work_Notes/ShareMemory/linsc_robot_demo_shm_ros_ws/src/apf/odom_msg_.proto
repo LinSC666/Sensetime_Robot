@@ -1,0 +1,16 @@
+//msg.proto
+syntax = "proto3";
+package demo;
+
+message odometry
+{
+    double pose_pose_position_x = 1;
+    double pose_pose_position_y = 2;
+    double pose_pose_orientation_x = 3;
+    double pose_pose_orientation_y = 4;
+    double pose_pose_orientation_z = 5;
+    double pose_pose_orientation_w = 6;
+    //optional bytes string_image = 3;
+}
+
+

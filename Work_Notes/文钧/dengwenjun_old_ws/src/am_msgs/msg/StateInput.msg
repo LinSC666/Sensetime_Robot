@@ -1,4 +1,0 @@
-Header header
-bool pathSegmentationBlocked
-bool pathDetectionBlocked
-bool turningDirectionLeft

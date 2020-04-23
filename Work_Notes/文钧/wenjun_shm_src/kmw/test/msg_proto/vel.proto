@@ -1,0 +1,8 @@
+syntax = "proto2";
+package gos_test;
+
+message vel
+{
+    required double linear_x = 1;
+    required double angular_z = 2;
+}

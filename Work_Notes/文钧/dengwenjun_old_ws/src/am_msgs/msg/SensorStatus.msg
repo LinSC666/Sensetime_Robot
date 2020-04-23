@@ -1,6 +1,0 @@
-Header header
-uint16 sensorStatus
-uint16 operationalMode
-uint16 mowerInternalState
-uint16 controlState
-

@@ -1,2 +1,0 @@
-# roslaunch simple_coverage_global_planner simple_coverage.launch [map_file:=/home/SENSETIME/dengwenjun/Project/Jackal/race_map.yaml]
-roslaunch simple_coverage_global_planner simple_coverage.launch [map_file:=/home/SENSETIME/dengwenjun/Project/Jackal/race_map.yaml]

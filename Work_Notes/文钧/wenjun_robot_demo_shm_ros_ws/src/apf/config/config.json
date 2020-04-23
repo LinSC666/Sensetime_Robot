@@ -1,0 +1,18 @@
+{
+    "vel": {
+        "nodes": [
+            "gos.node1.node_sub"
+        ],
+        "sub": [
+            "gos.sub.node_sub.vel.vel_sub"
+        ]
+    },
+    "odom": {
+        "nodes": [
+            "gos.node2.node_sub"
+        ],
+        "sub": [
+            "gos.sub.node_sub.odom.odom_sub"
+        ]
+    }
+}

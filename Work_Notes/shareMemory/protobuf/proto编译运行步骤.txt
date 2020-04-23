@@ -1,9 +1,0 @@
-//编译的脚本
-protoc --cpp_out=. msg.proto #生成对应的msg.pb.h和msg.pb.cpp文件
-
-g++ protobuff_demo.cpp msg.pb.cc -o protobuff_demo -lprotobuf
-
-./protobuff_demo
-
-rm -rf ./protobuff_test msg.pb.cc msg.pb.h
-

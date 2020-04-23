@@ -1,0 +1,5 @@
+①此个是有炼做人工势场法demo时加入shm共享内存方法替代ros发布速度cmd_vel和里程计odom消息
+
+②protobuf3.0
+
+③boost库操作memory

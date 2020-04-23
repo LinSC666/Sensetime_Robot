@@ -1,0 +1,12 @@
+//msg.proto
+syntax = "proto3";
+package demo;
+
+message twist
+{
+    double linear_x = 1;
+    double angular_z = 2;
+    //optional bytes string_image = 3;
+}
+
+

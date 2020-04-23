@@ -1,8 +1,0 @@
-prefix=/home/linsc/ROS_Project/Sensetime_ws/dengwenjun_old_ws/devel
-
-Name: simple_coverage_global_planner
-Description: Description of simple_coverage_global_planner
-Version: 0.1.0
-Cflags: 
-Libs: -L/home/linsc/ROS_Project/Sensetime_ws/dengwenjun_old_ws/devel/lib 
-Requires: 

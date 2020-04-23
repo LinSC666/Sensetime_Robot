@@ -1,8 +1,0 @@
-prefix=/home/linsc/ROS_Project/Sensetime_ws/dengwenjun_old_ws/devel
-
-Name: phone_sensors
-Description: Description of phone_sensors
-Version: 0.0.0
-Cflags: 
-Libs: -L/home/linsc/ROS_Project/Sensetime_ws/dengwenjun_old_ws/devel/lib 
-Requires: 
